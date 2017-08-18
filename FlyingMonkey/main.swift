@@ -8,5 +8,6 @@
 
 import Foundation
 
-print("Hello, World!")
-
+print("Hello! This is the Monkey programming language")
+print("Feel free to type commands")
+start()

@@ -14,6 +14,7 @@
 		EE4C28841F47455F0039BC2D /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28801F4744450039BC2D /* Token.swift */; };
 		EE4C28861F4747C50039BC2D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28851F4747C50039BC2D /* Lexer.swift */; };
 		EE4C28871F4749760039BC2D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28851F4747C50039BC2D /* Lexer.swift */; };
+		EE4C28891F479A8E0039BC2D /* Repl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28881F479A8E0039BC2D /* Repl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,7 @@
 		EE4C28801F4744450039BC2D /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		EE4C28821F4744C90039BC2D /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
 		EE4C28851F4747C50039BC2D /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		EE4C28881F479A8E0039BC2D /* Repl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				EE4C286C1F4741D50039BC2D /* main.swift */,
 				EE4C28801F4744450039BC2D /* Token.swift */,
 				EE4C28851F4747C50039BC2D /* Lexer.swift */,
+				EE4C28881F479A8E0039BC2D /* Repl.swift */,
 			);
 			path = FlyingMonkey;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4C28891F479A8E0039BC2D /* Repl.swift in Sources */,
 				EE4C286D1F4741D50039BC2D /* main.swift in Sources */,
 				EE4C28861F4747C50039BC2D /* Lexer.swift in Sources */,
 				EE4C28811F4744450039BC2D /* Token.swift in Sources */,
