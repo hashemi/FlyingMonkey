@@ -31,18 +31,43 @@ struct Lexer {
         }
     }
     
+    func peekChar() -> UnicodeScalar {
+        if readPosition >= input.endIndex {
+            return "\0"
+        } else {
+            return input.unicodeScalars[readPosition]
+        }
+    }
+    
     mutating func nextToken() -> Token {
         let tok: Token
         
         skipWhitespace()
         
         switch ch {
+        case "=" where peekChar() == "=":
+            let curCh = ch
+            readChar()
+            let literal = String(curCh) + String(ch)
+            tok = Token(type: .eq, literal: literal)
         case "=": tok = Token(type: .assign, literal: String(ch))
+        case "+": tok = Token(type: .plus, literal: String(ch))
+        case "-": tok = Token(type: .minus, literal: String(ch))
+        case "!" where peekChar() == "=":
+            let curCh = ch
+            readChar()
+            let literal = String(curCh) + String(ch)
+            tok = Token(type: .notEq, literal: literal)
+        case "!": tok = Token(type: .bang, literal: String(ch))
+        case "/": tok = Token(type: .slash, literal: String(ch))
+        case "*": tok = Token(type: .asterisk, literal: String(ch))
+        case "<": tok = Token(type: .lt, literal: String(ch))
+        case ">": tok = Token(type: .gt, literal: String(ch))
         case ";": tok = Token(type: .semicolon, literal: String(ch))
+        case ",": tok = Token(type: .comma, literal: String(ch))
+            
         case "(": tok = Token(type: .lparen, literal: String(ch))
         case ")": tok = Token(type: .rparen, literal: String(ch))
-        case ",": tok = Token(type: .comma, literal: String(ch))
-        case "+": tok = Token(type: .plus, literal: String(ch))
         case "{": tok = Token(type: .lbrace, literal: String(ch))
         case "}": tok = Token(type: .rbrace, literal: String(ch))
         case "\0": tok = Token(type: .eof, literal: "")

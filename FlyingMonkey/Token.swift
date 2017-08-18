@@ -15,7 +15,15 @@ enum TokenType {
     
     case assign
     case plus
-    
+    case minus
+    case bang
+    case asterisk
+    case slash
+    case lt
+    case gt
+    case eq
+    case notEq
+
     case comma
     case semicolon
     
@@ -26,14 +34,25 @@ enum TokenType {
     
     case function
     case `let`
+    case `true`
+    case `false`
+    case `if`
+    case `else`
+    case `return`
 }
+
 
 extension TokenType {
     init(ident: String) {
         switch ident {
-        case "fn": self = .function
-        case "let": self = .let
-        default: self = .ident
+        case "fn":      self = .function
+        case "let":     self = .let
+        case "true":    self = .true
+        case "false":   self = .false
+        case "if":      self = .if
+        case "else":    self = .else
+        case "return":  self = .return
+        default:        self = .ident
         }
     }
 }
