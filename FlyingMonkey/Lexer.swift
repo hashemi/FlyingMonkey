@@ -34,6 +34,8 @@ struct Lexer {
     mutating func nextToken() -> Token {
         let tok: Token
         
+        skipWhitespace()
+        
         switch ch {
         case "=": tok = Token(type: .assign, literal: String(ch))
         case ";": tok = Token(type: .semicolon, literal: String(ch))
@@ -44,6 +46,14 @@ struct Lexer {
         case "{": tok = Token(type: .lbrace, literal: String(ch))
         case "}": tok = Token(type: .rbrace, literal: String(ch))
         case "\0": tok = Token(type: .eof, literal: "")
+        
+        case _ where ch.isLetter:
+            let literal = readIdentifier()
+            let type = TokenType(ident: literal)
+            return Token(type: type, literal: literal)
+        
+        case _ where ch.isDigit:
+            return Token(type: .int, literal: readNumber())
 
         default:
             tok = Token(type: .illegal, literal: String(ch))
@@ -52,5 +62,31 @@ struct Lexer {
         readChar()
         
         return tok
+    }
+    
+    mutating func readIdentifier() -> String {
+        let start = position
+        while ch.isLetter { readChar() }
+        return String(input[start..<position])
+    }
+    
+    mutating func readNumber() -> String {
+        let start = position
+        while ch.isDigit { readChar() }
+        return String(input[start..<position])
+    }
+    
+    mutating func skipWhitespace() {
+        while Set([" ", "\t", "\r\n", "\r", "\n"]).contains(ch) { readChar() }
+    }
+}
+
+fileprivate extension Character {
+    var isLetter: Bool {
+        return "a" <= self && self <= "z" || "A" <= self && self <= "Z" || self == "_"
+    }
+    
+    var isDigit: Bool {
+        return "0" <= self && self <= "9"
     }
 }

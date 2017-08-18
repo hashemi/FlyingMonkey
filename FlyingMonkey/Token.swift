@@ -28,6 +28,16 @@ enum TokenType {
     case `let`
 }
 
+extension TokenType {
+    init(ident: String) {
+        switch ident {
+        case "fn": self = .function
+        case "let": self = .let
+        default: self = .ident
+        }
+    }
+}
+
 struct Token {
     let type: TokenType
     let literal: String

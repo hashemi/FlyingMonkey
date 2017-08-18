@@ -10,18 +10,55 @@ import XCTest
 
 class LexerTests: XCTestCase {
     func testNextToken() {
-        let input = "=+(){},;"
+        let input = """
+                let five = 5;
+                let ten = 10;
+
+                let add = fn(x, y) {
+                    x + y;
+                };
+
+                let result = add(five, ten);
+                """
 
         let tests: [(expectedType: TokenType, expectedLiteral: String)] = [
+            (.let, "let"),
+            (.ident, "five"),
             (.assign, "="),
-            (.plus, "+"),
+            (.int, "5"),
+            (.semicolon, ";"),
+            (.let, "let"),
+            (.ident, "ten"),
+            (.assign, "="),
+            (.int, "10"),
+            (.semicolon, ";"),
+            (.let, "let"),
+            (.ident, "add"),
+            (.assign, "="),
+            (.function, "fn"),
             (.lparen, "("),
+            (.ident, "x"),
+            (.comma, ","),
+            (.ident, "y"),
             (.rparen, ")"),
             (.lbrace, "{"),
-            (.rbrace, "}"),
-            (.comma, ","),
+            (.ident, "x"),
+            (.plus, "+"),
+            (.ident, "y"),
             (.semicolon, ";"),
-            (.eof, "")
+            (.rbrace, "}"),
+            (.semicolon, ";"),
+            (.let, "let"),
+            (.ident, "result"),
+            (.assign, "="),
+            (.ident, "add"),
+            (.lparen, "("),
+            (.ident, "five"),
+            (.comma, ","),
+            (.ident, "ten"),
+            (.rparen, ")"),
+            (.semicolon, ";"),
+            (.eof, ""),
         ]
         
         var l = Lexer(input)
