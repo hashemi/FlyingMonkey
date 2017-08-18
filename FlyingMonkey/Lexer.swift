@@ -10,12 +10,12 @@ struct Lexer {
     let input: String
     var position: String.Index
     var readPosition: String.Index
-    var ch: Character
+    var ch: UnicodeScalar
     
     init(_ input: String) {
         self.input = input
-        self.position = input.startIndex
-        self.readPosition = input.startIndex
+        self.position = input.unicodeScalars.startIndex
+        self.readPosition = input.unicodeScalars.startIndex
         self.ch = "\0"
         self.readChar()
     }
@@ -25,7 +25,7 @@ struct Lexer {
             ch = "\0"
             position = readPosition
         } else {
-            ch = input[readPosition]
+            ch = input.unicodeScalars[readPosition]
             position = readPosition
             readPosition = input.index(after: readPosition)
         }
@@ -77,11 +77,13 @@ struct Lexer {
     }
     
     mutating func skipWhitespace() {
-        while Set([" ", "\t", "\r\n", "\r", "\n"]).contains(ch) { readChar() }
+        let whitespace: Set<UnicodeScalar> = [" ", "\t", "\r", "\n"]
+        
+        while whitespace.contains(ch) { readChar() }
     }
 }
 
-fileprivate extension Character {
+fileprivate extension UnicodeScalar {
     var isLetter: Bool {
         return "a" <= self && self <= "z" || "A" <= self && self <= "Z" || self == "_"
     }
