@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		EE4C286D1F4741D50039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
-		EE4C287A1F4741F60039BC2D /* FlyingMonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */; };
 		EE4C287F1F4742970039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
+		EE4C28811F4744450039BC2D /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28801F4744450039BC2D /* Token.swift */; };
+		EE4C28831F4744C90039BC2D /* LexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28821F4744C90039BC2D /* LexerTests.swift */; };
+		EE4C28841F47455F0039BC2D /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28801F4744450039BC2D /* Token.swift */; };
+		EE4C28861F4747C50039BC2D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28851F4747C50039BC2D /* Lexer.swift */; };
+		EE4C28871F4749760039BC2D /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28851F4747C50039BC2D /* Lexer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,8 +32,10 @@
 		EE4C28691F4741D50039BC2D /* FlyingMonkey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FlyingMonkey; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4C286C1F4741D50039BC2D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		EE4C28771F4741F60039BC2D /* FlyingMonkeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyingMonkeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingMonkeyTests.swift; sourceTree = "<group>"; };
 		EE4C287B1F4741F60039BC2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE4C28801F4744450039BC2D /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		EE4C28821F4744C90039BC2D /* LexerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LexerTests.swift; sourceTree = "<group>"; };
+		EE4C28851F4747C50039BC2D /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				EE4C286C1F4741D50039BC2D /* main.swift */,
+				EE4C28801F4744450039BC2D /* Token.swift */,
+				EE4C28851F4747C50039BC2D /* Lexer.swift */,
 			);
 			path = FlyingMonkey;
 			sourceTree = "<group>";
@@ -79,7 +87,7 @@
 		EE4C28781F4741F60039BC2D /* FlyingMonkeyTests */ = {
 			isa = PBXGroup;
 			children = (
-				EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */,
+				EE4C28821F4744C90039BC2D /* LexerTests.swift */,
 				EE4C287B1F4741F60039BC2D /* Info.plist */,
 			);
 			path = FlyingMonkeyTests;
@@ -174,6 +182,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4C286D1F4741D50039BC2D /* main.swift in Sources */,
+				EE4C28861F4747C50039BC2D /* Lexer.swift in Sources */,
+				EE4C28811F4744450039BC2D /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,8 +191,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE4C28841F47455F0039BC2D /* Token.swift in Sources */,
 				EE4C287F1F4742970039BC2D /* main.swift in Sources */,
-				EE4C287A1F4741F60039BC2D /* FlyingMonkeyTests.swift in Sources */,
+				EE4C28871F4749760039BC2D /* Lexer.swift in Sources */,
+				EE4C28831F4744C90039BC2D /* LexerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
