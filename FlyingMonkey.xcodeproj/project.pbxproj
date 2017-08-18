@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EE4C286D1F4741D50039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
+		EE4C287A1F4741F60039BC2D /* FlyingMonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */; };
+		EE4C287F1F4742970039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,10 +27,20 @@
 /* Begin PBXFileReference section */
 		EE4C28691F4741D50039BC2D /* FlyingMonkey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FlyingMonkey; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4C286C1F4741D50039BC2D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		EE4C28771F4741F60039BC2D /* FlyingMonkeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyingMonkeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingMonkeyTests.swift; sourceTree = "<group>"; };
+		EE4C287B1F4741F60039BC2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EE4C28661F4741D50039BC2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE4C28741F4741F60039BC2D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				EE4C286B1F4741D50039BC2D /* FlyingMonkey */,
+				EE4C28781F4741F60039BC2D /* FlyingMonkeyTests */,
 				EE4C286A1F4741D50039BC2D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				EE4C28691F4741D50039BC2D /* FlyingMonkey */,
+				EE4C28771F4741F60039BC2D /* FlyingMonkeyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +74,15 @@
 				EE4C286C1F4741D50039BC2D /* main.swift */,
 			);
 			path = FlyingMonkey;
+			sourceTree = "<group>";
+		};
+		EE4C28781F4741F60039BC2D /* FlyingMonkeyTests */ = {
+			isa = PBXGroup;
+			children = (
+				EE4C28791F4741F60039BC2D /* FlyingMonkeyTests.swift */,
+				EE4C287B1F4741F60039BC2D /* Info.plist */,
+			);
+			path = FlyingMonkeyTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,6 +105,23 @@
 			productReference = EE4C28691F4741D50039BC2D /* FlyingMonkey */;
 			productType = "com.apple.product-type.tool";
 		};
+		EE4C28761F4741F60039BC2D /* FlyingMonkeyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE4C287C1F4741F60039BC2D /* Build configuration list for PBXNativeTarget "FlyingMonkeyTests" */;
+			buildPhases = (
+				EE4C28731F4741F60039BC2D /* Sources */,
+				EE4C28741F4741F60039BC2D /* Frameworks */,
+				EE4C28751F4741F60039BC2D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlyingMonkeyTests;
+			productName = FlyingMonkeyTests;
+			productReference = EE4C28771F4741F60039BC2D /* FlyingMonkeyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -93,6 +133,9 @@
 				ORGANIZATIONNAME = "Ahmad Alhashemi";
 				TargetAttributes = {
 					EE4C28681F4741D50039BC2D = {
+						CreatedOnToolsVersion = 9.0;
+					};
+					EE4C28761F4741F60039BC2D = {
 						CreatedOnToolsVersion = 9.0;
 					};
 				};
@@ -110,9 +153,20 @@
 			projectRoot = "";
 			targets = (
 				EE4C28681F4741D50039BC2D /* FlyingMonkey */,
+				EE4C28761F4741F60039BC2D /* FlyingMonkeyTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EE4C28751F4741F60039BC2D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		EE4C28651F4741D50039BC2D /* Sources */ = {
@@ -120,6 +174,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE4C286D1F4741D50039BC2D /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE4C28731F4741F60039BC2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE4C287F1F4742970039BC2D /* main.swift in Sources */,
+				EE4C287A1F4741F60039BC2D /* FlyingMonkeyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +313,32 @@
 			};
 			name = Release;
 		};
+		EE4C287D1F4741F60039BC2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 786B43Q634;
+				INFOPLIST_FILE = FlyingMonkeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = md.hashemi.FlyingMonkeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		EE4C287E1F4741F60039BC2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 786B43Q634;
+				INFOPLIST_FILE = FlyingMonkeyTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = md.hashemi.FlyingMonkeyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -267,6 +356,15 @@
 			buildConfigurations = (
 				EE4C28711F4741D50039BC2D /* Debug */,
 				EE4C28721F4741D50039BC2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE4C287C1F4741F60039BC2D /* Build configuration list for PBXNativeTarget "FlyingMonkeyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE4C287D1F4741F60039BC2D /* Debug */,
+				EE4C287E1F4741F60039BC2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
