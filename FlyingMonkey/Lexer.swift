@@ -23,11 +23,12 @@ struct Lexer {
     mutating func readChar() {
         if readPosition >= input.endIndex {
             ch = "\0"
+            position = readPosition
         } else {
             ch = input[readPosition]
+            position = readPosition
             readPosition = input.index(after: readPosition)
         }
-        position = readPosition
     }
     
     mutating func nextToken() -> Token {
