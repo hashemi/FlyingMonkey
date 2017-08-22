@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EE13BC241F4A5AA3000CD6B6 /* AstTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BC231F4A5AA3000CD6B6 /* AstTests.swift */; };
+		EE13BC261F4A5CA6000CD6B6 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BC251F4A5CA6000CD6B6 /* Parser.swift */; };
+		EE13BC2C1F4A5FD7000CD6B6 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BC2B1F4A5FD7000CD6B6 /* ParserTests.swift */; };
+		EE13BC2D1F4A629E000CD6B6 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13BC251F4A5CA6000CD6B6 /* Parser.swift */; };
 		EE4C286D1F4741D50039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
 		EE4C287F1F4742970039BC2D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C286C1F4741D50039BC2D /* main.swift */; };
 		EE4C28811F4744450039BC2D /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4C28801F4744450039BC2D /* Token.swift */; };
@@ -35,6 +38,8 @@
 
 /* Begin PBXFileReference section */
 		EE13BC231F4A5AA3000CD6B6 /* AstTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstTests.swift; sourceTree = "<group>"; };
+		EE13BC251F4A5CA6000CD6B6 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		EE13BC2B1F4A5FD7000CD6B6 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		EE4C28691F4741D50039BC2D /* FlyingMonkey */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FlyingMonkey; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4C286C1F4741D50039BC2D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		EE4C28771F4741F60039BC2D /* FlyingMonkeyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlyingMonkeyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +95,7 @@
 				EE4C28851F4747C50039BC2D /* Lexer.swift */,
 				EE4C28881F479A8E0039BC2D /* Repl.swift */,
 				EE4C288A1F47B9EF0039BC2D /* Ast.swift */,
+				EE13BC251F4A5CA6000CD6B6 /* Parser.swift */,
 			);
 			path = FlyingMonkey;
 			sourceTree = "<group>";
@@ -99,6 +105,7 @@
 			children = (
 				EE4C28821F4744C90039BC2D /* LexerTests.swift */,
 				EE13BC231F4A5AA3000CD6B6 /* AstTests.swift */,
+				EE13BC2B1F4A5FD7000CD6B6 /* ParserTests.swift */,
 				EE4C287B1F4741F60039BC2D /* Info.plist */,
 			);
 			path = FlyingMonkeyTests;
@@ -194,6 +201,7 @@
 			files = (
 				EE4C28891F479A8E0039BC2D /* Repl.swift in Sources */,
 				EE4C286D1F4741D50039BC2D /* main.swift in Sources */,
+				EE13BC261F4A5CA6000CD6B6 /* Parser.swift in Sources */,
 				EE4C288B1F47B9EF0039BC2D /* Ast.swift in Sources */,
 				EE4C28861F4747C50039BC2D /* Lexer.swift in Sources */,
 				EE4C28811F4744450039BC2D /* Token.swift in Sources */,
@@ -208,6 +216,8 @@
 				EE4C28841F47455F0039BC2D /* Token.swift in Sources */,
 				EE4C287F1F4742970039BC2D /* main.swift in Sources */,
 				EE4C288D1F47CABB0039BC2D /* Ast.swift in Sources */,
+				EE13BC2C1F4A5FD7000CD6B6 /* ParserTests.swift in Sources */,
+				EE13BC2D1F4A629E000CD6B6 /* Parser.swift in Sources */,
 				EE4C288C1F47CAB80039BC2D /* Repl.swift in Sources */,
 				EE4C28871F4749760039BC2D /* Lexer.swift in Sources */,
 				EE4C28831F4744C90039BC2D /* LexerTests.swift in Sources */,
