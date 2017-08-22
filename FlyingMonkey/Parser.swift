@@ -6,10 +6,10 @@
 //  Copyright © 2017 Ahmad Alhashemi. All rights reserved.
 //
 
-typealias PrefixParseFn = () -> Expression
-typealias InfixParseFn = (Expression) -> Expression
+typealias PrefixParseFn = () -> Expression?
+typealias InfixParseFn = (Expression) -> Expression?
 
-struct Parser {
+class Parser {
     enum Precedence: Int {
         case lowest
         case equals      // ==
@@ -29,11 +29,11 @@ struct Parser {
     var prefixParseFns: [TokenType: PrefixParseFn] = [:]
     var infixParseFns: [TokenType: InfixParseFn] = [:]
 
-    mutating func registerPrefix(tokenType: TokenType, fn: @escaping PrefixParseFn) {
+    func registerPrefix(tokenType: TokenType, fn: @escaping PrefixParseFn) {
         prefixParseFns[tokenType] = fn
     }
 
-    mutating func registerInfix(tokenType: TokenType, fn: @escaping PrefixParseFn) {
+    func registerInfix(tokenType: TokenType, fn: @escaping PrefixParseFn) {
         prefixParseFns[tokenType] = fn
     }
     
@@ -43,9 +43,10 @@ struct Parser {
         peekToken = self.l.nextToken()
         
         registerPrefix(tokenType: .ident, fn: parseIdentifier)
+        registerPrefix(tokenType: .int, fn: parseIntegerLiteral)
     }
     
-    mutating func parseProgram() -> Program {
+    func parseProgram() -> Program {
         var statements: [Statement] = []
         
         while !curTokenIs(.eof) {
@@ -58,14 +59,14 @@ struct Parser {
         return Program(statements: statements)
     }
     
-    mutating func parseStatement() -> Statement? {
+    func parseStatement() -> Statement? {
         switch curToken.type {
         default:
             return parseExpressionStatement()
         }
     }
     
-    mutating func nextToken() {
+    func nextToken() {
         curToken = peekToken
         peekToken = l.nextToken()
     }
@@ -78,7 +79,7 @@ struct Parser {
         return peekToken.type == t
     }
     
-    mutating func parseExpressionStatement() -> ExpressionStatement {
+    func parseExpressionStatement() -> ExpressionStatement {
         let token = curToken
         let expression = parseExpression(.lowest)
         if peekTokenIs(.semicolon) {
@@ -98,5 +99,14 @@ struct Parser {
     func parseIdentifier() -> Expression {
         return Identifier(token: curToken, value: curToken.literal)
     }
+    
+    func parseIntegerLiteral() -> Expression? {
+        guard let value = Int64(self.curToken.literal)
+            else {
+                self.errors.append("could not parse \(self.curToken.literal) as integer")
+                return nil
+            }
+        
+        return IntegerLiteral(token: self.curToken, value: value)
+    }
 }
-
