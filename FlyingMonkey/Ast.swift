@@ -102,11 +102,11 @@ struct IntegerLiteral: Expression {
 struct PrefixExpression: Expression {
     let token: Token
     let op: String
-    let right: Expression
+    let right: Expression?
     
     var tokenLiteral: String { return token.literal }
     var string: String {
-        return "(\(op)\(right.string)"
+        return "(\(op)\(right?.string ?? "")"
     }
 }
 

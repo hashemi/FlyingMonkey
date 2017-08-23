@@ -44,6 +44,8 @@ class Parser {
         
         registerPrefix(tokenType: .ident, fn: parseIdentifier)
         registerPrefix(tokenType: .int, fn: parseIntegerLiteral)
+        registerPrefix(tokenType: .bang, fn: parsePrefixExpression)
+        registerPrefix(tokenType: .minus, fn: parsePrefixExpression)
     }
     
     func parseProgram() -> Program {
@@ -79,6 +81,10 @@ class Parser {
         return peekToken.type == t
     }
     
+    func noPrefixParseFnError(_ tokenType: TokenType) {
+        self.errors.append("no prefix parse function for \(tokenType) found")
+    }
+    
     func parseExpressionStatement() -> ExpressionStatement {
         let token = curToken
         let expression = parseExpression(.lowest)
@@ -91,6 +97,7 @@ class Parser {
     
     func parseExpression(_ precedence: Precedence) -> Expression? {
         guard let prefix = prefixParseFns[curToken.type] else {
+            noPrefixParseFnError(curToken.type)
             return nil
         }
         return prefix()
@@ -108,5 +115,16 @@ class Parser {
             }
         
         return IntegerLiteral(token: self.curToken, value: value)
+    }
+    
+    func parsePrefixExpression() -> Expression {
+        let tok = curToken
+        let op = curToken.literal
+        
+        nextToken()
+        
+        let right = parseExpression(.prefix)
+        
+        return PrefixExpression(token: tok, op: op, right: right)
     }
 }

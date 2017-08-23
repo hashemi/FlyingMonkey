@@ -63,4 +63,56 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(literal.value, 5)
         XCTAssertEqual(literal.tokenLiteral, "5")
     }
+    
+    func _testIntegerLiteral(_ il: Expression, _ value: Int64) -> Bool {
+        guard
+            let int = il as? IntegerLiteral
+        else {
+            return false
+        }
+        
+        if int.value != value {
+            return false
+        }
+        
+        return true
+    }
+    
+    func testParsingPrefixExpressions() {
+        let tests: [(input: String, op: String, integerValue: Int64)] = [
+            ("!5;", "!", 5),
+            ("-15;", "-", 15),
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            XCTAssertEqual(program.statements.count, 1)
+            
+            guard
+                let stmt = program.statements[0] as? ExpressionStatement
+                else {
+                    XCTFail()
+                    return
+            }
+            
+            guard
+                let exp = stmt.expression as? PrefixExpression
+                else {
+                    XCTFail()
+                    return
+            }
+            
+            guard
+                let right = exp.right else {
+                    XCTFail()
+                    return
+            }
+            
+            XCTAssertTrue(_testIntegerLiteral(right, tt.integerValue))
+        }
+    }
 }
