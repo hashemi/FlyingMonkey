@@ -114,12 +114,12 @@ struct InfixExpression: Expression {
     let token: Token
     let left: Expression
     let op: String
-    let right: Expression
+    let right: Expression?
     
     var tokenLiteral: String { return token.literal }
 
     var string: String {
-        return "(\(left.string) \(op) \(right.string))"
+        return "(\(left.string) \(op) \(right?.string ?? ""))"
     }
 }
 

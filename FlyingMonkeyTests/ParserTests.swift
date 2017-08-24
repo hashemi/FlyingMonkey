@@ -115,4 +115,51 @@ class ParserTests: XCTestCase {
             XCTAssertTrue(_testIntegerLiteral(right, tt.integerValue))
         }
     }
+    
+    func testParsingInfixExpressions() {
+        let tests: [(input: String, leftValue: Int64, op: String, rightValue: Int64)] = [
+            ("5 + 5;", 5, "+", 5),
+            ("5 - 5;", 5, "-", 5),
+            ("5 * 5;", 5, "*", 5),
+            ("5 / 5;", 5, "/", 5),
+            ("5 > 5;", 5, ">", 5),
+            ("5 < 5;", 5, "<", 5),
+            ("5 == 5;", 5, "==", 5),
+            ("5 != 5;", 5, "!=", 5),
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            XCTAssertEqual(program.statements.count, 1)
+            
+            guard
+                let stmt = program.statements[0] as? ExpressionStatement
+                else {
+                    XCTFail()
+                    return
+            }
+            
+            guard
+                let exp = stmt.expression as? InfixExpression
+                else {
+                    XCTFail()
+                    return
+            }
+
+            guard
+                let right = exp.right else {
+                    XCTFail()
+                    return
+            }
+            
+            
+            XCTAssertTrue(_testIntegerLiteral(exp.left, tt.leftValue))
+            XCTAssertTrue(_testIntegerLiteral(right, tt.rightValue))
+        }
+
+    }
 }
