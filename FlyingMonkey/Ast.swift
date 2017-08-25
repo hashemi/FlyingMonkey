@@ -106,7 +106,7 @@ struct PrefixExpression: Expression {
     
     var tokenLiteral: String { return token.literal }
     var string: String {
-        return "(\(op)\(right?.string ?? "")"
+        return "(\(op)\(right?.string ?? ""))"
     }
 }
 
