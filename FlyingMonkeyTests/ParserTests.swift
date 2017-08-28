@@ -64,18 +64,15 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(literal.tokenLiteral, "5")
     }
     
-    func _testIntegerLiteral(_ il: Expression, _ value: Int64) -> Bool {
+    func _testIntegerLiteral(_ il: Expression, _ value: Int64) {
         guard
             let int = il as? IntegerLiteral
         else {
-            return false
+            XCTFail()
+            return
         }
         
-        if int.value != value {
-            return false
-        }
-        
-        return true
+        XCTAssertEqual(int.value, value)
     }
     
     func testParsingPrefixExpressions() {
@@ -112,7 +109,7 @@ class ParserTests: XCTestCase {
                     return
             }
             
-            XCTAssertTrue(_testIntegerLiteral(right, tt.integerValue))
+            _testIntegerLiteral(right, tt.integerValue)
         }
     }
     
@@ -156,9 +153,8 @@ class ParserTests: XCTestCase {
                     return
             }
             
-            
-            XCTAssertTrue(_testIntegerLiteral(exp.left, tt.leftValue))
-            XCTAssertTrue(_testIntegerLiteral(right, tt.rightValue))
+            _testIntegerLiteral(exp.left, tt.leftValue)
+            _testIntegerLiteral(right, tt.rightValue)
         }
     }
         
