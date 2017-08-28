@@ -183,4 +183,44 @@ class ParserTests: XCTestCase {
             XCTAssertEqual(program.string, tt.expected)
         }
     }
+    
+    func _testIdentifier(_ exp: Expression, _ value: String) {
+        guard let ident = exp as? Identifier else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(ident.value, value)
+        XCTAssertEqual(ident.tokenLiteral, value)
+    }
+    
+    func _testLiteralExpression(_ exp: Expression, _ expected: Any) {
+        switch expected {
+        case let int as Int:
+            _testIntegerLiteral(exp, Int64(int))
+        case let int as Int64:
+            _testIntegerLiteral(exp, int)
+        case let string as String:
+           _testIdentifier(exp, string)
+        default:
+            XCTFail()
+        }
+    }
+    
+    func _testInfixExpression(_ exp: Expression, _ left: Any, _ op: String, _ right: Any) {
+        guard let opExp = exp as? InfixExpression else {
+            XCTFail()
+            return
+        }
+        
+        _testLiteralExpression(opExp.left, left)
+        XCTAssertEqual(opExp.op, op)
+        
+        guard let expRight = opExp.right else {
+            XCTFail()
+            return
+        }
+        
+        _testLiteralExpression(expRight, right)
+    }
 }
