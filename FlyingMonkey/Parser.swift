@@ -73,7 +73,9 @@ class Parser {
         registerPrefix(tokenType: .int, fn: parseIntegerLiteral)
         registerPrefix(tokenType: .bang, fn: parsePrefixExpression)
         registerPrefix(tokenType: .minus, fn: parsePrefixExpression)
-        
+        registerPrefix(tokenType: .true, fn: parseBoolean)
+        registerPrefix(tokenType: .false, fn: parseBoolean)
+
         registerInfix(tokenType: .plus, fn: parseInfixExpression)
         registerInfix(tokenType: .minus, fn: parseInfixExpression)
         registerInfix(tokenType: .slash, fn: parseInfixExpression)
@@ -163,6 +165,10 @@ class Parser {
             }
         
         return IntegerLiteral(token: self.curToken, value: value)
+    }
+    
+    func parseBoolean() -> Expression {
+        return Boolean(token: curToken, value: curTokenIs(.true))
     }
     
     func parsePrefixExpression() -> Expression {

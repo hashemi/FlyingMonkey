@@ -184,6 +184,35 @@ class ParserTests: XCTestCase {
         }
     }
     
+    func testBooleanExpression() {
+        let tests: [(input: String, expectedBoolean: Bool)] = [
+            ("true;", true),
+            ("false;", false)
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            XCTAssertEqual(program.statements.count, 1)
+            
+            guard let stmt = program.statements[0] as? ExpressionStatement else {
+                XCTFail()
+                return
+            }
+            
+            guard let boolean = stmt.expression as? Boolean else {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(boolean.value, tt.expectedBoolean)
+        }
+    }
+
+    
     func _testIdentifier(_ exp: Expression, _ value: String) {
         guard let ident = exp as? Identifier else {
             XCTFail()
