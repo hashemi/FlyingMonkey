@@ -266,6 +266,62 @@ class ParserTests: XCTestCase {
         XCTAssertNil(exp.alternative)
     }
     
+    func testIfElseExpression() {
+        let input = "if (x < y) { x } else { y }"
+        
+        let l = Lexer(input)
+        let p = Parser(l)
+        let program = p.parseProgram()
+        
+        XCTAssertEqual(p.errors.count, 0)
+        XCTAssertEqual(program.statements.count, 1)
+        
+        guard let stmt = program.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let exp = stmt.expression as? IfExpression else {
+            XCTFail()
+            return
+        }
+        
+        guard let condition = exp.condition else {
+            XCTFail()
+            return
+        }
+        
+        _testInfixExpression(condition, "x", "<", "y")
+        
+        XCTAssertEqual(exp.consequence.statements.count, 1)
+        
+        guard let consequence = exp.consequence.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let consequenceExpression = consequence.expression else {
+            XCTFail()
+            return
+        }
+        
+        _testIdentifier(consequenceExpression, "x")
+        
+        XCTAssertEqual(exp.alternative?.statements.count ?? 0, 1)
+        
+        guard let alternative = exp.alternative?.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let alternativeExpression = alternative.expression else {
+            XCTFail()
+            return
+        }
+        
+        _testIdentifier(alternativeExpression, "y")
+    }
+
     func _testIdentifier(_ exp: Expression, _ value: String) {
         guard let ident = exp as? Identifier else {
             XCTFail()

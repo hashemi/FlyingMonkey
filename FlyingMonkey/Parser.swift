@@ -236,7 +236,21 @@ class Parser {
         
         let consequence = parseBlockStatement()
         
-        return IfExpression(token: token, condition: condition, consequence: consequence, alternative: nil)
+        
+        let alternative: BlockStatement?
+        if peekTokenIs(.else) {
+            nextToken()
+            
+            if !expectPeek(.lbrace) {
+                return nil
+            }
+            
+            alternative = parseBlockStatement()
+        } else {
+            alternative = nil
+        }
+        
+        return IfExpression(token: token, condition: condition, consequence: consequence, alternative: alternative)
     }
     
     func parseBlockStatement() -> BlockStatement {
