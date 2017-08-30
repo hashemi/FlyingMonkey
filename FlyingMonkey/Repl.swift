@@ -12,11 +12,21 @@ func start() {
     while true {
         print(prompt, terminator: "")
         guard let line = readLine() else { return }
-        var l = Lexer(line)
-        var tok = l.nextToken()
-        while tok.type != .eof {
-            print(tok)
-            tok = l.nextToken()
+        let l = Lexer(line)
+        let p = Parser(l)
+        
+        let program = p.parseProgram()
+        
+        if p.errors.count != 0 {
+            printParserErrors(p.errors)
         }
+        
+        print(program.string)
+    }
+}
+
+func printParserErrors(_ errors: [String]) {
+    for msg in errors {
+        print("\t\(msg)\n")
     }
 }
