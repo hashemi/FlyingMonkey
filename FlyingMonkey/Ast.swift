@@ -143,13 +143,18 @@ struct IfExpression: Expression {
 
 struct FunctionLiteral: Expression {
     let token: Token
-    let parameters: [Identifier]
+    let parameters: [Identifier]?
     let body: BlockStatement
 
     var tokenLiteral: String { return token.literal }
 
     var string: String {
-        let paramsString = parameters.map { $0.string }.joined(separator: ", ")
+        let paramsString: String
+        if let parameters = parameters {
+            paramsString = parameters.map { $0.string }.joined(separator: ", ")
+        } else {
+            paramsString = ""
+        }
         return "\(tokenLiteral)(\(paramsString)) \(body.string)"
     }
 }
@@ -157,12 +162,17 @@ struct FunctionLiteral: Expression {
 struct CallExpression: Expression {
     let token: Token
     let function: Expression
-    let arguments: [Expression]
+    let arguments: [Expression]?
 
     var tokenLiteral: String { return token.literal }
 
     var string: String {
-        let argsString = arguments.map { $0.string }.joined(separator: ", ")
-        return "\(tokenLiteral)(\(argsString))"
+        let argsString: String
+        if let arguments = arguments {
+            argsString = arguments.map { $0.string }.joined(separator: ", ")
+        } else {
+            argsString = ""
+        }
+        return "\(function.string)(\(argsString))"
     }
 }

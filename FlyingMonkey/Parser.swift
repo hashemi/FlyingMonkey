@@ -33,6 +33,7 @@ class Parser {
             case .minus: self = .sum
             case .slash: self = .product
             case .asterisk: self = .product
+            case .lparen: self = .call
             default: self = .lowest
             }
         }
@@ -77,6 +78,7 @@ class Parser {
         registerPrefix(tokenType: .false, fn: parseBoolean)
         registerPrefix(tokenType: .lparen, fn: parseGroupedExpression)
         registerPrefix(tokenType: .if, fn: parseIfExpression)
+        registerPrefix(tokenType: .function, fn: parseFunctionLiteral)
 
         registerInfix(tokenType: .plus, fn: parseInfixExpression)
         registerInfix(tokenType: .minus, fn: parseInfixExpression)
@@ -86,6 +88,7 @@ class Parser {
         registerInfix(tokenType: .notEq, fn: parseInfixExpression)
         registerInfix(tokenType: .lt, fn: parseInfixExpression)
         registerInfix(tokenType: .gt, fn: parseInfixExpression)
+        registerInfix(tokenType: .lparen, fn: parseCallExpression)
     }
     
     func parseProgram() -> Program {
@@ -251,6 +254,82 @@ class Parser {
         }
         
         return IfExpression(token: token, condition: condition, consequence: consequence, alternative: alternative)
+    }
+    
+    func parseFunctionLiteral() -> Expression? {
+        let token = curToken
+        
+        if !expectPeek(.lparen) { return nil }
+        
+        let parameters = parseFunctionParameters()
+        
+        if !expectPeek(.lbrace) { return nil }
+        
+        let body = parseBlockStatement()
+        
+        return FunctionLiteral(token: token, parameters: parameters, body: body)
+    }
+    
+    func parseFunctionParameters() -> [Identifier]? {
+        var identifiers: [Identifier] = []
+        
+        if peekTokenIs(.rparen) {
+            nextToken()
+            return identifiers
+        }
+        
+        nextToken()
+        
+        let ident = Identifier(token: curToken, value: curToken.literal)
+        identifiers.append(ident)
+        
+        while peekTokenIs(.comma) {
+            nextToken()
+            nextToken()
+            let ident = Identifier(token: curToken, value: curToken.literal)
+            identifiers.append(ident)
+        }
+        
+        if !expectPeek(.rparen) {
+            return nil
+        }
+        
+        return identifiers
+    }
+    
+    func parseCallExpression(_ function: Expression) -> Expression {
+        let token = curToken
+        let arguments = parseCallArguments()
+        return CallExpression(token: token, function: function, arguments: arguments)
+    }
+    
+    func parseCallArguments() -> [Expression]? {
+        var args: [Expression] = []
+        
+        if peekTokenIs(.rparen) {
+            nextToken()
+            return args
+        }
+        
+        nextToken()
+        
+        if let exp = parseExpression(.lowest) {
+            args.append(exp)
+        }
+
+        while peekTokenIs(.comma) {
+            nextToken()
+            nextToken()
+            if let exp = parseExpression(.lowest) {
+                args.append(exp)
+            }
+        }
+        
+        if !expectPeek(.rparen) {
+            return nil
+        }
+        
+        return args
     }
     
     func parseBlockStatement() -> BlockStatement {

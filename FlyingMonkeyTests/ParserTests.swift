@@ -182,6 +182,9 @@ class ParserTests: XCTestCase {
             ("(5 + 5) * 2 * (5 + 5)", "(((5 + 5) * 2) * (5 + 5))"),
             ("-(5 + 5)", "(-(5 + 5))"),
             ("!(true == true)", "(!(true == true))"),
+            ("a + add(b * c) + d", "((a + add((b * c))) + d)"),
+            ("add(a, b, 1, 2 * 3, 4 + 5, add(6, 7 * 8))", "add(a, b, 1, (2 * 3), (4 + 5), add(6, (7 * 8)))"),
+            ("add(a + b + c * d / f + g)", "add((((a + b) + ((c * d) / f)) + g))"),
         ]
         
         for tt in tests {
@@ -321,7 +324,155 @@ class ParserTests: XCTestCase {
         
         _testIdentifier(alternativeExpression, "y")
     }
+    
+    func testFunctionLiteralParsing() {
+        let input = "fn(x, y) { x + y; }"
+        
+        let l = Lexer(input)
+        let p = Parser(l)
+        let program = p.parseProgram()
+        
+        XCTAssertEqual(p.errors.count, 0)
+        XCTAssertEqual(program.statements.count, 1)
+        
+        guard let stmt = program.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let function = stmt.expression as? FunctionLiteral else {
+            XCTFail()
+            return
+        }
+        
+        guard let parameters = function.parameters else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(parameters.count, 2)
+        
+        _testLiteralExpression(parameters[0], "x")
+        _testLiteralExpression(parameters[1], "y")
+        
+        XCTAssertEqual(function.body.statements.count, 1)
+        
+        guard let bodyStmt = function.body.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let bodyStmtExpression = bodyStmt.expression else {
+            XCTFail()
+            return
+        }
+        
+        _testInfixExpression(bodyStmtExpression, "x", "+", "y")
+    }
 
+    func testFunctionParameterParsing() {
+        let tests: [(input: String, expectedParams: [String])] = [
+            ("fn() {};", []),
+            ("fn(x) {};", ["x"]),
+            ("fn(x, y, z) {};", ["x", "y", "z"])
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            guard let stmt = program.statements[0] as? ExpressionStatement else {
+                XCTFail()
+                return
+            }
+            
+            guard let function = stmt.expression as? FunctionLiteral else {
+                XCTFail()
+                return
+            }
+            
+            guard let parameters = function.parameters else {
+                XCTFail()
+                return
+            }
+            
+            for (idx, ident) in tt.expectedParams.enumerated() {
+                _testIdentifier(parameters[idx], ident)
+            }
+        }
+    }
+    
+    func testCallExpressionParsing() {
+        let input = "add(1, 2 * 3, 4 + 5);"
+        
+        let l = Lexer(input)
+        let p = Parser(l)
+        let program = p.parseProgram()
+        
+        XCTAssertEqual(p.errors.count, 0)
+        XCTAssertEqual(program.statements.count, 1)
+        
+        guard let stmt = program.statements[0] as? ExpressionStatement else {
+            XCTFail()
+            return
+        }
+        
+        guard let exp = stmt.expression as? CallExpression else {
+            XCTFail()
+            return
+        }
+        
+        _testIdentifier(exp.function, "add")
+        
+        guard let arguments = exp.arguments else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(arguments.count, 3)
+        
+        _testLiteralExpression(arguments[0], 1)
+        _testInfixExpression(arguments[1], 2, "*", 3)
+        _testInfixExpression(arguments[2], 4, "+", 5)
+    }
+    
+    func testCallExpressionParameterParsing() {
+        let tests: [(input: String, expectedIdent: String, expectedArgs: [String])] = [
+            ("add();", "add", []),
+            ("add(1);", "add", ["1"]),
+            ("add(1, 2 * 3, 4 + 5);", "add", ["1", "(2 * 3)", "(4 + 5)"])
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            
+            guard let stmt = program.statements[0] as? ExpressionStatement else {
+                XCTFail()
+                return
+            }
+            
+            guard let exp = stmt.expression as? CallExpression else {
+                XCTFail()
+                return
+            }
+            
+            _testIdentifier(exp.function, tt.expectedIdent)
+            
+            guard let arguments = exp.arguments else {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(arguments.map { $0.string }, tt.expectedArgs)
+        }
+    }
+    
     func _testIdentifier(_ exp: Expression, _ value: String) {
         guard let ident = exp as? Identifier else {
             XCTFail()
