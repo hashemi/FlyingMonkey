@@ -125,14 +125,14 @@ struct InfixExpression: Expression {
 
 struct IfExpression: Expression {
     let token: Token
-    let condition: Expression
+    let condition: Expression?
     let consequence: BlockStatement
     let alternative: BlockStatement?
 
     var tokenLiteral: String { return token.literal }
 
     var string: String {
-        let baseString = "if\(condition.string) \(consequence.string)"
+        let baseString = "if\(condition?.string ?? "") \(consequence.string)"
         if let alternative = alternative {
             return "\(baseString) else \(alternative.string)"
         } else {

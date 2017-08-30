@@ -76,6 +76,7 @@ class Parser {
         registerPrefix(tokenType: .true, fn: parseBoolean)
         registerPrefix(tokenType: .false, fn: parseBoolean)
         registerPrefix(tokenType: .lparen, fn: parseGroupedExpression)
+        registerPrefix(tokenType: .if, fn: parseIfExpression)
 
         registerInfix(tokenType: .plus, fn: parseInfixExpression)
         registerInfix(tokenType: .minus, fn: parseInfixExpression)
@@ -212,5 +213,45 @@ class Parser {
         }
         
         return exp
+    }
+    
+    func parseIfExpression() -> Expression? {
+        let token = curToken
+        
+        if !expectPeek(.lparen) {
+            return nil
+        }
+        
+        nextToken()
+        
+        let condition = parseExpression(.lowest)
+        
+        if !expectPeek(.rparen) {
+            return nil
+        }
+        
+        if !expectPeek(.lbrace) {
+            return nil
+        }
+        
+        let consequence = parseBlockStatement()
+        
+        return IfExpression(token: token, condition: condition, consequence: consequence, alternative: nil)
+    }
+    
+    func parseBlockStatement() -> BlockStatement {
+        let token = curToken
+        var statements: [Statement] = []
+        
+        nextToken()
+        
+        while !curTokenIs(.rbrace) && !curTokenIs(.eof) {
+            if let stmt = parseStatement() {
+                statements.append(stmt)
+            }
+            nextToken()
+        }
+        
+        return BlockStatement(token: token, statements: statements)
     }
 }
