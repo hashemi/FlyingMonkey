@@ -75,6 +75,7 @@ class Parser {
         registerPrefix(tokenType: .minus, fn: parsePrefixExpression)
         registerPrefix(tokenType: .true, fn: parseBoolean)
         registerPrefix(tokenType: .false, fn: parseBoolean)
+        registerPrefix(tokenType: .lparen, fn: parseGroupedExpression)
 
         registerInfix(tokenType: .plus, fn: parseInfixExpression)
         registerInfix(tokenType: .minus, fn: parseInfixExpression)
@@ -190,5 +191,26 @@ class Parser {
         nextToken()
         let right = parseExpression(precedence)
         return InfixExpression(token: token, left: left, op: op, right: right)
+    }
+    
+    func expectPeek(_ type: TokenType) -> Bool {
+        if peekTokenIs(type) {
+            nextToken()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func parseGroupedExpression() -> Expression? {
+        nextToken()
+        
+        let exp = parseExpression(.lowest)
+        
+        if !expectPeek(.rparen) {
+            return nil
+        }
+        
+        return exp
     }
 }
