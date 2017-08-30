@@ -10,6 +10,70 @@ import XCTest
 
 class ParserTests: XCTestCase {
     
+    func testLetStatements() {
+        let tests: [(input: String, expectedIdentifier: String, expectedValue: Any)] = [
+            ("let x = 5;", "x", 5),
+            ("let y = true;", "y", true),
+            ("let foobar = y;", "foobar", "y"),
+        ]
+        
+        for tt in tests {
+            let l = Lexer(tt.input)
+            let p = Parser(l)
+            let program = p.parseProgram()
+            
+            XCTAssertEqual(p.errors.count, 0)
+            XCTAssertEqual(program.statements.count, 1)
+            
+            let stmt = program.statements[0]
+            _testLetStatement(stmt, tt.expectedIdentifier)
+            
+            guard let val = (stmt as? LetStatement)?.value else {
+                XCTFail()
+                return
+            }
+            
+            _testLiteralExpression(val, tt.expectedValue)
+        }
+    }
+    
+    func testReturnStatements() {
+        let input = """
+            return 5;
+            return 10;
+            return 993322;
+            """
+
+        let l = Lexer(input)
+        let p = Parser(l)
+        let program = p.parseProgram()
+        
+        XCTAssertEqual(p.errors.count, 0)
+        XCTAssertEqual(program.statements.count, 3)
+        
+        for stmt in program.statements {
+            guard let returnStmt = stmt as? ReturnStatement else {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(returnStmt.tokenLiteral, "return")
+        }
+    }
+    
+    func _testLetStatement(_ s: Statement, _ name: String) {
+        XCTAssertEqual(s.tokenLiteral, "let")
+
+        guard let letStmt = s as? LetStatement else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(letStmt.name.value, name)
+        XCTAssertEqual(letStmt.name.tokenLiteral, name)
+    }
+
+    
     func testIdentifierExpression() {
         let input = "foobar;"
         let l = Lexer(input)
@@ -73,6 +137,15 @@ class ParserTests: XCTestCase {
         }
         
         XCTAssertEqual(int.value, value)
+    }
+    
+    func _testBooleanLiteral(_ bl: Expression, _ value: Bool) {
+        guard let bool = bl as? Boolean else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(bool.value, value)
     }
     
     func testParsingPrefixExpressions() {
@@ -490,7 +563,9 @@ class ParserTests: XCTestCase {
         case let int as Int64:
             _testIntegerLiteral(exp, int)
         case let string as String:
-           _testIdentifier(exp, string)
+            _testIdentifier(exp, string)
+        case let bool as Bool:
+            _testBooleanLiteral(exp, bool)
         default:
             XCTFail()
         }

@@ -106,6 +106,10 @@ class Parser {
     
     func parseStatement() -> Statement? {
         switch curToken.type {
+        case .let:
+            return parseLetStatement()
+        case .return:
+            return parseReturnStatement()
         default:
             return parseExpressionStatement()
         }
@@ -126,6 +130,43 @@ class Parser {
     
     func noPrefixParseFnError(_ tokenType: TokenType) {
         self.errors.append("no prefix parse function for \(tokenType) found")
+    }
+    
+    func parseLetStatement() -> LetStatement? {
+        let token = curToken
+        
+        if !expectPeek(.ident) {
+            return nil
+        }
+        
+        let name = Identifier(token: curToken, value: curToken.literal)
+        
+        if !expectPeek(.assign) {
+            return nil
+        }
+        
+        nextToken()
+        
+        let value = parseExpression(.lowest)
+        
+        if peekTokenIs(.semicolon) {
+            nextToken()
+        }
+        
+        return LetStatement(token: token, name: name, value: value)
+    }
+    
+    func parseReturnStatement() -> ReturnStatement {
+        let token = curToken
+        nextToken()
+        
+        let returnValue = parseExpression(.lowest)
+        
+        if peekTokenIs(.semicolon) {
+            nextToken()
+        }
+        
+        return ReturnStatement(token: token, returnValue: returnValue)
     }
     
     func parseExpressionStatement() -> ExpressionStatement {
@@ -202,8 +243,13 @@ class Parser {
             nextToken()
             return true
         } else {
+            peekError(type)
             return false
         }
+    }
+    
+    func peekError(_ type: TokenType) {
+        errors.append("Expected next token to by \(type), got \(peekToken.type)")
     }
     
     func parseGroupedExpression() -> Expression? {
