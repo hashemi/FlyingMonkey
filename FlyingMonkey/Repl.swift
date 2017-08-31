@@ -19,9 +19,12 @@ func start() {
         
         if p.errors.count != 0 {
             printParserErrors(p.errors)
+            continue
         }
         
-        print(program.string)
+        if let evaluated = eval(program) {
+            print(evaluated.inspect)
+        }
     }
 }
 
