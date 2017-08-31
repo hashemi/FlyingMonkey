@@ -140,7 +140,7 @@ class ParserTests: XCTestCase {
     }
     
     func _testBooleanLiteral(_ bl: Expression, _ value: Bool) {
-        guard let bool = bl as? Boolean else {
+        guard let bool = bl as? BooleanLiteral else {
             XCTFail()
             return
         }
@@ -289,7 +289,7 @@ class ParserTests: XCTestCase {
                 return
             }
             
-            guard let boolean = stmt.expression as? Boolean else {
+            guard let boolean = stmt.expression as? BooleanLiteral else {
                 XCTFail()
                 return
             }

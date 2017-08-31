@@ -214,7 +214,7 @@ class Parser {
     }
     
     func parseBoolean() -> Expression {
-        return Boolean(token: curToken, value: curTokenIs(.true))
+        return BooleanLiteral(token: curToken, value: curTokenIs(.true))
     }
     
     func parsePrefixExpression() -> Expression {

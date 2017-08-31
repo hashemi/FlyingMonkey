@@ -83,7 +83,7 @@ struct Identifier: Expression {
     var string: String { return value }
 }
 
-struct Boolean: Expression {
+struct BooleanLiteral: Expression {
     let token: Token
     let value: Bool
     
